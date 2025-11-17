@@ -1,0 +1,6 @@
+---
+
+const user = await Astro.locals.currentUser()
+if (!user) return new Response("Unauthorized", { status: 401 })
+
+---

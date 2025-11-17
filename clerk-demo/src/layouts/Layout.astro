@@ -1,3 +1,11 @@
+---
+const { currentUser } = Astro.locals; // Usamos locals
+if (!currentUser) {
+  return new Response(null, { status: 401 }); // Respuesta no autorizada [15]
+}
+const userId = currentUser.id;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
