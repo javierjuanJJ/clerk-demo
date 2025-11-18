@@ -1,11 +1,39 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro"
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/astro/components"
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={`🔓 Público - Retos App`}>
+  <main class="max-w-xl mx-auto py-12">
+    <h1 class="text-3xl font-bold">App de retos personales</h1>
+    <p>
+      Registra, crea y visualiza tus retos personales que quieres completar.
+      ¡Solo para usuarios autenticados!
+    </p>
+
+    <SignedOut>
+      <div class="mt-12">
+        <SignInButton
+          mode="modal"
+          class="bg-blue-500 text-white px-4 py-2 rounded"
+          >Iniciar sesión</SignInButton
+        >
+      </div>
+    </SignedOut>
+
+    <SignedIn>
+      <UserButton showName />
+      <p class="mt-12">
+        ¡Ya has iniciado sesión! Entra a tu <a
+          class="underline text-sky-300"
+          href="/retos">panel de retos</a
+        >
+      </p>
+    </SignedIn>
+  </main>
 </Layout>

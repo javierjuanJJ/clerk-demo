@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-import { getUserChallenges, addUserChallenge } from '../../lib/db';
+import { getUserChallenges, addUserChallenge } from '../lib/db';
 
 export const GET: APIRoute = async ({ locals }) => {
     const { currentUser } = await locals; // Acceso al usuario actual [17]
