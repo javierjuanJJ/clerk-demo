@@ -1,14 +1,30 @@
 import type { APIRoute } from 'astro';
 
-import { getUserChallenges, addUserChallenge } from '../lib/db';
+import { getUserChallenges, addUserChallenge } from '../../lib/db';
 
 export const GET: APIRoute = async ({ locals }) => {
-    const { currentUser } = await locals; // Acceso al usuario actual [17]
-    
-    if (!currentUser) {
-      return new Response(null, { status: 401 }); // No autorizado [17]
-    }
-    const userId = currentUser.id; // Uso del ID del usuario [17]
-    
-    // Lógica de la API...
-  };
+  const user = await locals.currentUser()
+  if (!user) return new Response('Unauthorized', { status: 401 })
+
+  const challenges = await getUserChallenges(user.id);
+
+  return new Response(JSON.stringify({ challenges }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+export const POST: APIRoute = async ({ locals, request }) => {
+  const user = await locals.currentUser()
+  if (!user) return new Response('Unauthorized', { status: 401 })
+
+  const data = await request.json();
+  const { challenge } = data;
+
+  if (typeof challenge === 'string' && challenge.trim().length > 0) {
+    await addUserChallenge(user.id, challenge.trim());
+    return new Response(JSON.stringify({ ok: true }), { status: 201 });
+  }
+
+  return new Response(JSON.stringify({ ok: false, error: 'Challenge inválido' }), { status: 400 });
+};
