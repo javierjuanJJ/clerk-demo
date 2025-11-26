@@ -1,41 +1,31 @@
 ---
-const { currentUser } = Astro.locals; // Usamos locals
-if (!currentUser) {
-  return new Response(null, { status: 401 }); // Respuesta no autorizada [15]
-}
-const userId = currentUser.id;
+const { title } = Astro.props
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-
----
-// Script setup
----
 <style is:global>
-  @import 'tailwindcss/base';
-  @import 'tailwindcss/components';
-  @import 'tailwindcss/utilities';
-  /* O la importación específica que apunta a los estilos */
+  @import "tailwindcss";
 </style>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    background: #333;
+    color-scheme: light dark;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
